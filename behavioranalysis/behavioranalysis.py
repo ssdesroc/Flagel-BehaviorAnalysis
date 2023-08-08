@@ -1,14 +1,10 @@
-import statistics
 import os
 import glob
 from tkinter import filedialog
 from tkinter import *  # noqa
 import pandas as pd
-from .eventcodes import eventcodes_dictionary
-from natsort import natsorted, ns
 
 __all__ = ["loop_over_days", "load_file"]
-
 
 def loop_over_days(column_list, behavioral_test_function):
     """
@@ -43,6 +39,7 @@ def loop_over_days(column_list, behavioral_test_function):
                 loaded_file = load_file(file)
                 df2 = behavioral_test_function(loaded_file, i)
                 df = df.append(df2, ignore_index=True)
+                os.remove(file)
 
     return days, df
 
@@ -81,8 +78,6 @@ def load_file(filename):
             for num in list:
                 list[list.index(num)] = float(num)
             fields_dictionary[key] = list
-
-    print(fields_dictionary)
 
     return fields_dictionary
 

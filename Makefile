@@ -9,4 +9,4 @@ flake8:
 	@echo "flake8 passed"
 
 test:
-	py.test --pyargs operantanalysis --cov-report term-missing --cov=operantanalysis
+	py.test --pyargs behavioranalysis --cov-report term-missing --cov=behavioranalysis
