@@ -29,17 +29,21 @@ def PavCA(loaded_file, i):
     tot_mag_NCS = loaded_file['E'][1]  # total magazine entries during non-CS (ITI)
     # average probability of lever press on a trial (subtract 0 values from total trials/total trials)
     sm_prob_lev = ((len(loaded_file['K'][0:15]) - (loaded_file['K'][0:15].count(0))) / len(loaded_file['K'][0:15]))
-    lg_prob_lev = ((len(loaded_file['K'][15:31]) - (loaded_file['K'][0:31].count(0))) / len(loaded_file['K'][0:31]))
+    lg_prob_lev = ((len(loaded_file['K'][15:30]) - (loaded_file['K'][15:30].count(0))) / len(loaded_file['K'][15:30]))
     # average probability of magazine entry on a trial (subtract 0 values from total trials/total trials)
     sm_prob_mag = ((len(loaded_file['M'][0:15]) - (loaded_file['M'][0:15].count(0))) / len(loaded_file['M'][0:15]))
-    lg_prob_mag = ((len(loaded_file['M'][15:31]) - (loaded_file['M'][15:31].count(0))) / len(loaded_file['M'][15:31]))
+    lg_prob_mag = ((len(loaded_file['M'][15:30]) - (loaded_file['M'][15:30].count(0))) / len(loaded_file['M'][15:30]))
     sm_lat_lev = statistics.mean(loaded_file['L'][0:15])  # average latency to lever press during CS
-    lg_lat_lev = statistics.mean(loaded_file['L'][15:31])  # average latency to lever press during CS
+    lg_lat_lev = statistics.mean(loaded_file['L'][15:30])  # average latency to lever press during CS
     sm_lat_mag = statistics.mean(loaded_file['N'][0:15])  # average latency to magazine entry during CS
-    lg_lat_mag = statistics.mean(loaded_file['N'][15:31])  # average latency to magazine entry during CS
+    lg_lat_mag = statistics.mean(loaded_file['N'][15:30])  # average latency to magazine entry during CS
 
-    sm_RSBias = (sm_tot_lev-sm_tot_mag_CS)/(sm_tot_lev+sm_tot_mag_CS)  # Response Bias = (tot_lev-tot_mag)/(tot_lev+tot_mag)
-    lg_RSBias = (lg_tot_lev - lg_tot_mag_CS) / (lg_tot_lev + lg_tot_mag_CS)  # Response Bias = (tot_lev-tot_mag)/(tot_lev+tot_mag)
+    if sm_tot_lev+sm_tot_mag_CS == 0:
+        sm_RSBias = 0
+    else: sm_RSBias = (sm_tot_lev-sm_tot_mag_CS)/(sm_tot_lev+sm_tot_mag_CS)  # Response Bias = (tot_lev-tot_mag)/(tot_lev+tot_mag)
+    if lg_tot_lev + lg_tot_mag_CS == 0:
+        lg_RSBias = 0
+    else: lg_RSBias = (lg_tot_lev - lg_tot_mag_CS) / (lg_tot_lev + lg_tot_mag_CS)  # Response Bias = (tot_lev-tot_mag)/(tot_lev+tot_mag)
     sm_Prob_Diff = sm_prob_lev - sm_prob_mag  # difference between lever and magazine contact probabilities
     lg_Prob_Diff = lg_prob_lev - lg_prob_mag  # difference between lever and magazine contact probabilities
     sm_Lat_Diff = -(sm_lat_lev - sm_lat_mag)/8  # negative difference between lever and magazine latencies/cue length
